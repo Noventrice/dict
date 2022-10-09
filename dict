@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+
+use warnings;
+use strict;
+use Getopt::Std;
+
+my %opts=();
+getopts('Sfi', \%opts);
+my $start=$opts{'S'}  ? '' : '^';
+my $end=$opts{'f'} ? '$' : '';
+my $case=$opts{'i'} ? '(?i)' : '';
+
+my $re=qr/$case$start$ARGV[0]$end/;
+
+open(DICT, '<', '/usr/share/dict/words') or die('Dictionary missing.');
+
+while(<DICT>){
+    print if m/$re/;
+}
